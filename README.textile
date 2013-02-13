@@ -94,5 +94,6 @@ reflect changes if a POST.
 
 h2. Technologies and Resources Used
 
-* HTTPClient (https://github.com/interactive-matter/HTTPClient) under the "GNU GPL v3":http://www.gnu.org/licenses/gpl.html
-* minunit (https://github.com/siu/minunit) under the "MIT License":http://opensource.org/licenses/MIT
+The following technologies are used in this web application:
+ * Flask (http://flask.pocoo.org/) under the "BSD License":http://flask.pocoo.org/docs/license/
+ * psycopg2 (http://initd.org/psycopg/) under "GNU LGPL":http://initd.org/psycopg/license/ license
