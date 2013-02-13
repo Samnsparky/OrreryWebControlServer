@@ -1,9 +1,98 @@
-CREATE DATABASE test;
-\c test
-CREATE TABLE system_state (motor_speed real, motor_draw real, rotations real, start_date date);
-CREATE TABLE system_config (motor_speed real, relay_enabled bool);
+h1. OrreryWebControl Web Service
 
-CREATE DATABASE dev;
-\c dev
-CREATE TABLE system_state (motor_speed real, motor_draw real, rotations real, start_date date);
-CREATE TABLE system_config (motor_speed real, relay_enabled bool);
+(c) 2013 "Sam Pottinger":http://gleap.org
+Released under the "GNU GPL v3":http://www.gnu.org/licenses/gpl.html license.
+Done for "CU Engineering Honors Program":http://www.cuhonorsengineering.com/
+
+
+h2. Motivation
+
+While some libraries exist that allow developers to control Arduino units
+remotely, the constraints of the honor's program's orrery project exceed
+the needs of free solutions but remain outside the realm of more expensive
+platforms. To accomodate this niche, a simple HTTP-based web control system
+allows the system to report its status while accepting user configuration
+values. 
+
+This repository contains the web service with a human interface and JSON API.
+
+
+h2. Local Environment Setup
+
+Make sure the following prerequisite software is installed:
+ * PostgreSQL - http://www.postgresql.org/download/
+ * Pip - http://www.pip-installer.org/en/latest/
+ * virtualenv - http://pypi.python.org/pypi/virtualenv
+
+To setup the virtual environment,
+ * $ source venv/bin/activate
+ * "$ pip install -r requirements.txt" (sudo may be required on some machines)
+
+
+h2. Automated Local Testing
+
+This solution offers local unit testing. To run:
+ * $ python models_test.py
+ * $ python controllers_test.py
+
+
+h2. Local Development Server
+
+$ python controllers.py
+
+It is recommended to use curl to insert a sample system status update. This can
+be done with:
+
+@curl --data "motor_speed=100&motor_draw=200&rotations=300" http://0.0.0.0:5000/api/status.json@
+
+Before inserting a status, a read on /api/status.json will fail with a 404 error.
+
+
+h2. API Endpoints
+
+The JSON REST API currently offers the following endpoints:
+ * "/api/concise_status.json" methods=["GET"]
+ * "/api/status.json" methods=["GET", "POST"]
+ * "/api/status.json" methods=["GET", "POST"]
+
+h3. /api/concise_status.json
+
+Render a summary subset of the orrery system status.
+
+Render a subset of the orrery system status that includes the current date
+on the server, the number of rotations, and the "Earth" date in the orrery
+display given that rotation count.
+
+Returns JSON document as a string containing the simple status summary.
+
+h3. /api/status.json
+
+API endpoint to read and update the orrery system status.
+
+Endpoint to read and update the orrery system status. Requires motor speed,
+motor draw, and number of orrery shaft rotations as form parameters if a
+POST (encoded as motor_speed, motor_draw, and rotations respectively). All
+paramters on a GET request are ignored. POST updates and GET reads current
+state.
+
+Returns JSON document with orrery system status. Will reflect changes from
+update if POST.
+
+h3. /api/status.json
+
+API endpoint to read and update the orrery user configuration.
+
+Endpoint to read and update the user configuration settings for the orrery.
+POST updates system settings and READ returns current state. Updated motor
+speed and desired relay enabled state are optional as form parameters during
+a POST (motor_speed and relay_enabled respectively). Leaving out a form
+parameter will preserve the existing value.
+
+Returns JSON document with current user configuration settings. Will
+reflect changes if a POST.
+
+
+h2. Technologies and Resources Used
+
+* HTTPClient (https://github.com/interactive-matter/HTTPClient) under the "GNU GPL v3":http://www.gnu.org/licenses/gpl.html
+* minunit (https://github.com/siu/minunit) under the "MIT License":http://opensource.org/licenses/MIT

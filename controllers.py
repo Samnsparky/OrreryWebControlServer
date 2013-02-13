@@ -54,7 +54,10 @@ def api_full_status():
     """
     if flask.request.method == "GET":
         orrery_status = models.read_orrery_status()
-        return api_view.render_orrery_status(orrery_status, True)
+        if orrery_status:
+            return api_view.render_orrery_status(orrery_status, True)
+        else:
+            flask.abort(404)
 
     else:
         old_status_entry = models.read_orrery_status()
