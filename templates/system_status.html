@@ -1,0 +1,35 @@
+{% extends "authenticated_base.html" %}
+
+{% block authenticated_content %}
+<h3>Raw Orrery Status Values</h3>
+<table>
+    <tr>
+        <td>motor_speed</td>
+        <td>{{ motor_speed }}</td>
+    </tr>
+    <tr>
+        <td>motor_draw</td>
+        <td>{{ motor_draw }}</td>
+    </tr>
+    <tr>
+        <td>rotations</td>
+        <td>{{ rotations }}</td>
+    </tr>
+    <tr>
+        <td>start_date</td>
+        <td>{{ start_date }}</td>
+    </tr>
+</table>
+
+<h3>Raw Orrery Config Values</h3>
+<table>
+    <tr>
+        <td>motor_speed</td>
+        <td>{{ motor_speed }}</td>
+    </tr>
+    <tr>
+        <td>relay_enabled</td>
+        <td>{{ relay_enabled }}</td>
+    </tr>
+</table>
+{% endblock %}

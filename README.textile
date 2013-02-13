@@ -1,0 +1,9 @@
+CREATE DATABASE test;
+\c test
+CREATE TABLE system_state (motor_speed real, motor_draw real, rotations real, start_date date);
+CREATE TABLE system_config (motor_speed real, relay_enabled bool);
+
+CREATE DATABASE dev;
+\c dev
+CREATE TABLE system_state (motor_speed real, motor_draw real, rotations real, start_date date);
+CREATE TABLE system_config (motor_speed real, relay_enabled bool);

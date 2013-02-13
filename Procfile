@@ -1,1 +1,1 @@
-web: python orrery_web_control.py
+web: gunicorn controllers:app -w 3
