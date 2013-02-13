@@ -1,3 +1,10 @@
+"""
+Controllers that handle web requests for both the API and human interfaces.
+
+@author: Sam Pottinger
+@license: GNU GPL v3
+"""
+
 import datetime
 import json
 import os
@@ -16,12 +23,35 @@ app.debug = True
 
 @app.route("/api/concise_status.json")
 def api_simple_status():
+    """
+    Render a summary subset of the orrery system status.
+
+    Render a subset of the orrery system status that includes the current date
+    on the server, the number of rotations, and the "Earth" date in the orrery
+    display given that rotation count.
+
+    @return: JSON document as a string containing the simple status summary.
+    @rtype: str
+    """
     orrery_status = models.read_orrery_status()
     return api_view.render_orrery_status(orrery_status, False)
 
 
 @app.route("/api/status.json", methods=["GET", "POST"])
 def api_full_status():
+    """
+    API endpoint to read and update the orrery system status.
+
+    Endpoint to read and update the orrery system status. Requires motor speed,
+    motor draw, and number of orrery shaft rotations as form parameters if a
+    POST (encoded as motor_speed, motor_draw, and rotations respectively). All
+    paramters on a GET request are ignored. POST updates and GET reads current
+    state.
+
+    @return: JSON document with orrery system status. Will reflect changes from
+        update if POST.
+    @rtype: str
+    """
     if flask.request.method == "GET":
         orrery_status = models.read_orrery_status()
         return api_view.render_orrery_status(orrery_status, True)
@@ -58,6 +88,19 @@ def api_full_status():
 
 @app.route("/api/config.json", methods=["GET", "POST"])
 def api_set_config():
+    """
+    API endpoint to read and update the orrery user configuration.
+
+    Endpoint to read and update the user configuration settings for the orrery.
+    POST updates system settings and READ returns current state. Updated motor
+    speed and desired relay enabled state are optional as form parameters during
+    a POST (motor_speed and relay_enabled respectively). Leaving out a form
+    parameter will preserve the existing value.
+
+    @return: JSON document with current user configuration settings. Will
+        reflect changes if a POST.
+    @rtype: str
+    """
 
     if flask.request.method == "GET":
         config_entry = models.read_orrery_config()
@@ -89,6 +132,15 @@ def api_set_config():
 
 @app.route("/human/system_status")
 def system_status():
+    """
+    Display a web page with a summary of raw system values.
+
+    Renders a web page with the raw values for the orrery system status and user
+    configuration entries.
+
+    @return: HTML page
+    @rtype: str
+    """
     (config_entry, status_entry) = models.get_orrery_config_and_status()
     config_entry_dict = serialization.orrery_config_to_dict(config_entry)
     status_entry_dict = serialization.orrery_status_to_dict(status_entry)

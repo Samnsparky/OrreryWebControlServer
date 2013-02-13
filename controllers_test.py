@@ -1,3 +1,10 @@
+"""
+Tests for the orrery web control web service controllers.
+
+@author: Sam Pottinger
+@license: GNU GPL v3
+"""
+
 import json
 import unittest
 
@@ -7,6 +14,7 @@ import models
 
 
 class TestAPI(unittest.TestCase):
+    """Test the API endpoints."""
 
     def setUp(self):
         config.DB_NAME = "test"
@@ -18,6 +26,17 @@ class TestAPI(unittest.TestCase):
         models.delete_orrery_config()
 
     def status_dicts_equal(self, dict1, dict2):
+        """
+        Tests if two dictionaries with orrery status are equal.
+
+        @param dict1: The first dictionary with system status to compare.
+        @type dict1: dict
+        @param dict2: The second dictionary with system status to compare.
+        @type dict2: dict
+        @return: True if the provided dictionaries have the same values and
+            False otherwise.
+        @rtype: bool
+        """
         same = True
         same = same and dict1["motor_speed"] == dict2["motor_speed"]
         same = same and dict1["motor_draw"] == dict2["motor_draw"]
@@ -25,12 +44,24 @@ class TestAPI(unittest.TestCase):
         return same
 
     def config_dicts_equal(self, dict1, dict2):
+        """
+        Tests if two dictionaries with user configuration are equal.
+
+        @param dict1: The first dictionary with user configuration to compare.
+        @type dict1: dict
+        @param dict2: The second dictionary with user configuration to compare.
+        @type dict2: dict
+        @return: True if the provided dictionaries have the same values and
+            False otherwise.
+        @rtype: bool
+        """
         same = True
         same = same and dict1["motor_speed"] == dict2["motor_speed"]
         same = same and dict1["relay_enabled"] == dict2["relay_enabled"]
         return same
 
     def test_status(self):
+        """Tests getting and setting orrery system status values."""
         # Create initial entry
         initial_entry_data = {
             "motor_speed": 200,
@@ -68,6 +99,7 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(self.status_dicts_equal(ret_dict, updated_entry_data))
 
     def test_concise_status(self):
+        """Tests getting system status summaries."""
         # Create initial entry
         initial_entry_data = {
             "motor_speed": 200,
@@ -87,6 +119,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(ret_dict["rotations"], initial_entry_data["rotations"])
 
     def test_config(self):
+        """Test getting and setting orrery user configuration settings."""
         # Create initial config
         initial_entry_data = {
             "motor_speed": 200,

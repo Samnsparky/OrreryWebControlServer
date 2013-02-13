@@ -1,3 +1,10 @@
+"""
+Logic to render output in response to API calls.
+
+@author: Sam Pottinger
+@license: GNU GPL v3
+"""
+
 import json
 import datetime
 
@@ -6,6 +13,14 @@ import serialization
 
 
 def render_orrery_status(record, render_full):
+    """
+    Render the status of the orrery as a JSON document in a string.
+
+    @param record: The orrery status record to serialize to a JSON string.
+    @type record: models.OrreryStatus
+    @return: The given record as a JSON document.
+    @rtype: str
+    """
     orrery_date = math_util.calc_orrery_date(record)
 
     if render_full:
@@ -31,4 +46,12 @@ def render_orrery_status(record, render_full):
 
 
 def render_orrery_config(record):
+    """
+    Render the status of the orrery configuration settings as a JSON document.
+
+    @param record: The orrery configuration settings to serialize.
+    @type record: models.OrreryConfig
+    @return: The given record as a JSON document.
+    @rtype: str
+    """
     return json.dumps(serialization.orrery_config_to_dict(record))

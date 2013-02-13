@@ -1,3 +1,10 @@
+"""
+Mathematical routines for the orrery web control web service.
+
+@author: Sam Pottinger
+@license: GNU GPL v3
+"""
+
 import datetime
 
 def calc_days_for_rotations(rotations):

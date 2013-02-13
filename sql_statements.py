@@ -1,3 +1,10 @@
+"""
+Collection of SQL statements for orrery web control database operations.
+
+@author: Sam Pottinger
+@license: GNU GPL v3
+"""
+
 COUNT_ORRERY_STATUS_SQL = "SELECT COUNT(*) FROM system_state"
 
 INSERT_ORRERY_STATUS_SQL = "INSERT INTO system_state (motor_speed, "\
